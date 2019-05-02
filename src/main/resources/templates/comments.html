@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="/bootstrap.min.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:replace="fragments/header :: topbar"></div>
+
+    <div>
+        <h1 class="h1 text-center" th:text="${post.title}"></h1>
+        <pre class="ml-5 mr-5 overflow-auto" th:text="${post.text}"></pre>
+        <h5>Posted By: <span th:text="${post.username}"></span></h5>
+
+        <br>
+
+        <h3 class="h3">Comments</h3>
+    </div>
+
+    <div>
+        <table class="table">
+            <tr>
+                <th>Comment</th>
+                <th>Date</th>
+                <th>User</th>
+                <th>Role</th>
+                <th th:if="${session.id != null}">Options</th>
+            </tr>
+
+            <div th:each="comment:${comments}">
+                <tr>
+                    <td><p th:text="${comment.content}"></p></td>
+                    <td><p th:text="${comment.date}"></p></td>
+                    <td><p th:text="${comment.userName}"></p></td>
+                    <td><p th:text="${comment.role}"></p></td>
+
+
+                    <!--
+                        Edit Comment HREF method
+                    -->
+                    <td th:if="${session.id != comment.id_user}"></td>
+
+                    <td th:if="${session.id == comment.id_user}"><a class="btn btn-outline-warning float-left mr-3"
+                                                                 th:href="@{/blog/post/editcomment/{id}(id=${comment.id})}">Edit</a>
+
+
+                        <!--
+                            Delete Comment POST method
+                        -->
+                        <form th:action="@{/blog/post/deletecomment/{id}(id=${comment.id})}" method="post">
+                            <button type="submit" class="btn btn-outline-danger">Delete</button>
+                        </form></td>
+                </tr>
+            </div>
+
+        </table>
+
+            <!--
+                NEW comment method POST
+             -->
+            <div th:if="${session.id != null}"><p class="h2">Comment Something!</p>
+                <form th:action="@{/blog/post/addcomment}" method="post" th:object="${Comment}">
+                    <textarea rows="10" cols="100" placeholder="Comment..." name="content"></textarea>
+                    <input type="hidden" th:value="${session.id}" name="id_user">
+                    <input type="hidden" th:value="${post.id}" name="id_post">
+                    <br>
+                    <button class="btn btn-outline-success" type="submit">Comment!</button>
+                </form>
+            </div>
+    </div>
+
+</body>
+</html>

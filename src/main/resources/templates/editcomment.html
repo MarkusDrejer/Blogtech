@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:if="${session.id == comment.id_user}">
+<head>
+    <link rel="stylesheet" href="/bootstrap.min.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>Edit-Comment</title>
+</head>
+<body>
+<div th:replace="fragments/header :: topbar"></div>
+
+    <p class="h1 text-center">Edit Your Comment</p>
+
+    <form th:action="@{/blog/post/editcomment}" method="post" th:object="${Comment}">
+        <input type="hidden" th:value="${comment.id}" name="id">
+        <textarea rows="10" cols="150" placeholder="Content" th:text="${comment.content}" name="content"></textarea>
+        <input type="hidden" th:value="${comment.id_post}" name="id_post">
+        <br>
+        <button class="btn btn-outline-warning" type="submit">Save</button>
+    </form>
+
+</body>
+</div>
+</html>

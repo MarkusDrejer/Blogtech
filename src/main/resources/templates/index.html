@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="/bootstrap.min.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+    <div th:replace="fragments/header :: topbar"></div>
+
+    <!--
+        Starting page with Welcome and when logged in the users name as well
+    -->
+
+    <div class="h1 text-center">
+        <h1>Welcome</h1>
+        <h1 th:text="${session.name}"></h1>
+    </div>
+
+</body>
+</html>

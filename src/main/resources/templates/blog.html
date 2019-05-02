@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <link rel="stylesheet" href="/bootstrap.min.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>Blog</title>
+</head>
+<body>
+    <div th:replace="fragments/header :: topbar"></div>
+
+    <h1 class="h1 text-center">Posts</h1>
+
+    <div>
+
+        <table class="table">
+            <tr>
+                <th>Subject</th>
+                <th>Content</th>
+                <th>Date</th>
+                <th>Poster</th>
+                <th th:if="${session.id != null}">Options</th>
+            </tr>
+
+            <div th:each="post:${blogposts}">
+                <tr>
+                    <td><a th:href="@{/blog/post/{id}/comments(id=${post.id})}" class="text-decoration-none">
+                        <p th:text="${post.title}"></p></a></td>
+                    <td class="w-50"><p style="height: 50px; overflow: hidden" th:text="${post.text}"></p></td>
+                    <td><p th:text="${post.date}"></p></td>
+                    <td><p th:text="${post.username}"></p></td>
+
+                    <!--
+                        Edit Blog HREF method
+                     -->
+                    <td th:if="${session.id != post.id_user}"></td>
+
+                    <td th:if="${session.id == post.id_user}"><a class="btn btn-outline-warning float-left mr-3"
+                           th:href="@{/blog/editpost/{id}(id=${post.id})}">Edit</a>
+
+
+                        <!--
+                            Delete Post POST method
+                        -->
+                        <form th:action="@{/blog/deletepost/{id}(id=${post.id})}" method="post">
+                            <button type="submit" class="btn btn-outline-danger">Delete</button>
+                        </form></td>
+                </tr>
+            </div>
+
+        </table>
+
+        <!--
+            Create new post POST method
+        -->
+        <div th:if="${session.id != null}"><p class="h2">Post Something!</p>
+            <form th:action="@{/blog/addpost}" method="post" th:object="${BlogPost}">
+                <input type="text" placeholder="Title" name="title">
+                <br>
+                <textarea rows="10" cols="100" placeholder="Content" name="text"></textarea>
+                <input type="hidden" th:value="${session.id}" name="id_user">
+                <br>
+                <button class="btn btn-outline-success" type="submit">Post!</button>
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>

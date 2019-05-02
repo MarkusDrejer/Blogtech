@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:if="${session.id_role == 1}">
+<head>
+    <link rel="stylesheet" href="/bootstrap.min.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>Edit-User</title>
+</head>
+<body>
+<div th:replace="fragments/header :: topbar"></div>
+
+    <form th:action="@{/users/edituser}" method="post" th:object="${User}">
+        <input type="hidden" th:value="${user.id}" name="id">
+        <input type="text" placeholder="Username" th:value="${user.username}" name="username">
+        <input type="text" placeholder="Name" th:value="${user.name}" name="name">
+        <input type="password" placeholder="Password" th:value="${user.password}" name="password">
+        <input type="text" placeholder="Role" th:value="${user.id_role}" name="id_role">
+
+        <button class="btn btn-outline-warning" type="submit">Save</button>
+    </form>
+
+</body>
+</div>
+</html>

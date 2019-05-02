@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<div th:if="${session.id_role == 1}">
+<head>
+    <link rel="stylesheet" href="/bootstrap.min.css" type="text/css">
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+    <div th:replace="fragments/header :: topbar"></div>
+
+    <div>
+        <form >
+
+            <div>
+                <table class="table">
+
+                    <tr>
+                        <th>ID</th>
+                        <th>Username</th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Options</th>
+                    </tr>
+
+
+                    <tr th:each="user:${users}">
+                        <td><p th:text="${user.id}"></p></td>
+                        <td><p th:text="${user.username}"></p></td>
+                        <td><p th:text="${user.name}"></p></td>
+                        <td><p th:text="${user.role_name}"></p></td>
+
+
+                        <td><a class="btn btn-outline-warning float-left mr-5"
+                               th:href="@{/users/edituser/{id}(id=${user.id})}">Edit</a>
+
+
+                            <form th:action="@{/users/deleteuser/{id}(id=${user.id})}" method="post">
+                                <button type="submit" class="btn btn-outline-danger">Delete</button>
+                            </form></td>
+                    </tr>
+                </table>
+                <a class="btn btn-outline-info" href="/users/adduser">Create User</a>
+            </div>
+
+        </form>
+    </div>
+
+</body>
+</div>
+</html>
